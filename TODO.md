@@ -1,0 +1,47 @@
+Kernel:
+- [ ] HTTP Messages
+  - [ ] PSR-7 (HTTP Message Interface) Compliance
+  - [ ] PSR-17 (HTTP Factories) Compliance
+- [ ] Middleware stack
+  - [ ] PSR-15 (HTTP Handlers) Compliance
+
+Components:
+- [ ] DBAL
+- [ ] Routing Middleware
+  - [ ] PSR-15 (HTTP Handlers) Compliance
+- [ ] Template Engine
+  - [ ] Tokenizer (?)
+  - [ ] Definitive Syntax
+- [ ] File Storage
+  - [ ] Image processing
+  - [ ] Filesystem functions wrapper (?)
+  - [ ] Cloud Storages
+- [ ] Cache Management
+  - [ ] PSR-6 (Caching Interface) Compliance
+  - [ ] PSR-16 (Simple Cache) Compliance
+  - [ ] Engines
+    - [ ] Filesystem
+    - [ ] Redis
+    - [ ] Memcached
+- [ ] Dependency Injection
+  - [ ] PSR-11 (Container Interface) Compliance
+- [ ] Logging Management
+  - [ ] PSR-3 (Logger Interface) Compliance
+- [ ] Authorization Middleware (PSR-15 Compliant)
+  - [ ] JWT
+  - [ ] Basic
+  - [ ] Bearer (?)
+  - [ ] TOTP/HOTP RFC Implementations
+- [ ] Security
+  - [ ] XSS Protection
+  - [ ] CSRF Protection
+  - [ ] ACL Implementation
+- [ ] Event Management (emitting, registering, etc)
+  - [ ] PSR-14 (Event Dispatcher) Compliance (weird PSR, so probably not ??)
+- [ ] Serializers
+  - [ ] JSON
+  - [ ] YAML
+  - [ ] Native
+- [ ] Process Delegation
+  - [ ] Cron tasks
+  - [ ] Background processing
