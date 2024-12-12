@@ -188,7 +188,7 @@ final class Uri implements UriInterface
 
         $query = $this->getQuery();
         if ($query !== '') {
-            $uri .= '?' . $uri;
+            $uri .= '?' . $query;
         }
 
         $fragment = $this->getFragment();

@@ -10,10 +10,10 @@ use Psr\Http\Message\UriInterface;
 
 class Request extends Message implements RequestInterface
 {
-    protected UriInterface $uri;
+    protected ?string $target = null;
 
     public function __construct(
-            protected string $target,
+            protected Uri $uri,
             protected string $method,
             string $version,
             StreamInterface $body
@@ -23,7 +23,7 @@ class Request extends Message implements RequestInterface
 
     public function getRequestTarget(): string
     {
-        return $this->target;
+        return $this->target ?? $this->uri->getPath();
     }
 
     public function withRequestTarget(string $requestTarget): RequestInterface

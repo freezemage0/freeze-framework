@@ -6,10 +6,11 @@ namespace Freeze\Framework\Kernel\Message;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\UriInterface;
 
 final class ServerRequest extends Request implements ServerRequestInterface
 {
-    private array             $attributes;
+    private array             $attributes = [];
     private array|null|object $parsedBody;
     private array             $uploadedFiles = [];
 
@@ -17,12 +18,12 @@ final class ServerRequest extends Request implements ServerRequestInterface
             private readonly array $server,
             private array $cookies,
             private array $query,
-            string $target,
+            UriInterface $uri,
             string $method,
             string $version,
             StreamInterface $body
     ) {
-        parent::__construct($target, $method, $version, $body);
+        parent::__construct($uri, $method, $version, $body);
     }
 
     public function getServerParams(): array

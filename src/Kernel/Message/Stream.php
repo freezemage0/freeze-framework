@@ -87,7 +87,7 @@ final class Stream implements StreamInterface
 
     public function getContents(): string
     {
-        return $this->read($this->getSize() - $this->tell());
+        return \stream_get_contents($this->stream());
     }
 
     public function getMetadata(?string $key = null): mixed

@@ -12,7 +12,9 @@ final class UploadedFile implements UploadedFileInterface
 {
     private bool $moved = false;
 
+
     public function __construct(
+            private readonly StreamInterface $stream,
             private readonly string $clientFilename,
             private readonly string $clientMediaType,
             private readonly ?int $size,
@@ -22,7 +24,7 @@ final class UploadedFile implements UploadedFileInterface
 
     public function getStream(): StreamInterface
     {
-        return new Stream(\fopen($this->clientFilename, 'r+'));
+        return $this->stream;
     }
 
     public function moveTo(string $targetPath): void

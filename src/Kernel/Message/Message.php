@@ -57,6 +57,10 @@ abstract class Message implements MessageInterface
 
     public function withHeader(string $name, $value): MessageInterface
     {
+        if (!\is_array($value)) {
+            $value = [$value];
+        }
+
         $message = clone $this;
         $message->headerCollection = $this->headerCollection->set($name, $value);
 

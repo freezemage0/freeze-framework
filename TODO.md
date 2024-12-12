@@ -1,9 +1,9 @@
 Kernel:
-- [ ] HTTP Messages
-  - [ ] PSR-7 (HTTP Message Interface) Compliance
-  - [ ] PSR-17 (HTTP Factories) Compliance
-- [ ] Middleware stack
-  - [ ] PSR-15 (HTTP Handlers) Compliance
+- [x] HTTP Messages
+  - [x] PSR-7 (HTTP Message Interface) Compliance
+  - [x] PSR-17 (HTTP Factories) Compliance
+- [x] Middleware stack
+  - [x] PSR-15 (HTTP Handlers) Compliance
 
 Components:
 - [ ] DBAL
@@ -23,8 +23,8 @@ Components:
     - [ ] Filesystem
     - [ ] Redis
     - [ ] Memcached
-- [ ] Dependency Injection
-  - [ ] PSR-11 (Container Interface) Compliance
+- [x] Dependency Injection
+  - [x] PSR-11 (Container Interface) Compliance
 - [ ] Logging Management
   - [ ] PSR-3 (Logger Interface) Compliance
 - [ ] Authorization Middleware (PSR-15 Compliant)
