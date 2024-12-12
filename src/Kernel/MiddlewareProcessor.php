@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Freeze\Framework\Kernel;
 
+use Freeze\Framework\Kernel\Contract\MiddlewareProcessorInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-final class MiddlewareStack implements RequestHandlerInterface
+final class MiddlewareProcessor implements RequestHandlerInterface, MiddlewareProcessorInterface
 {
     /** @var array<array-key, MiddlewareInterface> */
     private array $stack = [];
