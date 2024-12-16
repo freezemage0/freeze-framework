@@ -6,7 +6,11 @@ Kernel:
   - [x] PSR-15 (HTTP Handlers) Compliance
 
 Components:
-- [ ] DBAL
+- [ ] Routing Middleware
+  - [x] PSR-15 (HTTP Handlers) Compliance
+- [ ] Database Abstraction Layer
+- [ ] Internationalization
+- [ ] Localization
 - [ ] Routing Middleware
   - [ ] PSR-15 (HTTP Handlers) Compliance
 - [ ] Template Engine
