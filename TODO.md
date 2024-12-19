@@ -40,10 +40,10 @@ Components:
   - [ ] ACL Implementation
 - [ ] Event Management (emitting, registering, etc)
   - [ ] PSR-14 (Event Dispatcher) Compliance (weird PSR, so probably not ??)
-- [ ] Serializers
-  - [ ] JSON
-  - [ ] YAML
-  - [ ] Native
+- [x] Serializers
+  - [x] JSON
+  - [x] YAML
+  - [x] Native
 - [ ] Process Delegation
   - [ ] Cron tasks
   - [ ] Background processing
