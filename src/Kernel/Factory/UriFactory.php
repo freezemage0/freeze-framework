@@ -19,7 +19,7 @@ final class UriFactory implements UriFactoryInterface
             throw new RuntimeException('Unable to parse URI');
         }
 
-        $authority = $matches[4] ?? '';
+        $authority = $matches[4];
         $authority = \explode('@', $authority);
 
         $host = \array_pop($authority);
@@ -38,12 +38,12 @@ final class UriFactory implements UriFactoryInterface
         }
 
         return new Uri(
-                $matches[2] ?? '',
+                $matches[2],
                 $host,
                 $user ?? '',
                 $pass ?? '',
                 $port ?? null,
-                $matches[5] ?? '',
+                $matches[5],
                 $matches[7] ?? '',
                 $matches[9] ?? ''
         );

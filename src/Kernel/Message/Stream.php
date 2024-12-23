@@ -10,9 +10,12 @@ use RuntimeException;
 
 final class Stream implements StreamInterface
 {
-    /** @var resource */
+    /** @var resource|null */
     private $stream;
 
+    /**
+     * @param resource|null $stream
+     */
     public function __construct($stream) {
         if (!\is_resource($stream)) {
             throw new InvalidArgumentException('Stream must be of resource type');

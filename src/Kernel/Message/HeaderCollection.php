@@ -19,7 +19,7 @@ final class HeaderCollection
      * Returns the original instance if header wasn't found.
      *
      * @param string $name
-     * @param array $value
+     * @param array<scalar> $value
      * @return HeaderCollection
      */
     public function set(string $name, array $value): HeaderCollection
@@ -37,6 +37,11 @@ final class HeaderCollection
         return new HeaderCollection($headers);
     }
 
+    /**
+     * @param string $name
+     * @param array<scalar> $value
+     * @return HeaderCollection
+     */
     public function append(string $name, array $value): HeaderCollection
     {
         $headers = $this->headers;
@@ -78,6 +83,9 @@ final class HeaderCollection
         return null;
     }
 
+    /**
+     * @return array<string, array<scalar>>
+     */
     public function toArray(): array
     {
         $headers = [];

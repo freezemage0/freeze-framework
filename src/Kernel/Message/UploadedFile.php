@@ -15,8 +15,8 @@ final class UploadedFile implements UploadedFileInterface
 
     public function __construct(
             private readonly StreamInterface $stream,
-            private readonly string $clientFilename,
-            private readonly string $clientMediaType,
+            private readonly ?string $clientFilename,
+            private readonly ?string $clientMediaType,
             private readonly ?int $size,
             private readonly int $error
     ) {

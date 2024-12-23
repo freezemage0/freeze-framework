@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-final class MiddlewareProcessor implements RequestHandlerInterface, MiddlewareProcessorInterface
+final class MiddlewareProcessor implements MiddlewareProcessorInterface
 {
     /** @var array<array-key, MiddlewareInterface> */
     private array $stack = [];

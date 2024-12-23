@@ -13,7 +13,7 @@ class Request extends Message implements RequestInterface
     protected ?string $target = null;
 
     public function __construct(
-            protected Uri $uri,
+            protected UriInterface $uri,
             protected string $method,
             string $version,
             StreamInterface $body

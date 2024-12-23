@@ -47,7 +47,7 @@ abstract class Message implements MessageInterface
 
     public function getHeader(string $name): array
     {
-        return $this->headerCollection->get($name)?->value ?? [];
+        return $this->headerCollection->get($name)->value ?? [];
     }
 
     public function getHeaderLine(string $name): string

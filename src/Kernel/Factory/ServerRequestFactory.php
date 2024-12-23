@@ -9,6 +9,7 @@ use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Psr\Http\Message\UriInterface;
 
 final class ServerRequestFactory implements ServerRequestFactoryInterface
 {
@@ -18,6 +19,12 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
     ) {
     }
 
+    /**
+     * @param string $method
+     * @param UriInterface|string $uri
+     * @param array<string, mixed> $serverParams
+     * @return ServerRequestInterface
+     */
     public function createServerRequest(string $method, $uri, array $serverParams = []): ServerRequestInterface
     {
         if (\is_string($uri)) {

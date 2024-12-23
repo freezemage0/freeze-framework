@@ -20,5 +20,8 @@
         "psr-4": {
             "Freeze\\Framework\\": "src/"
         }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "2.1.x-dev"
     }
 }
