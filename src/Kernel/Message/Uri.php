@@ -9,6 +9,8 @@ use Psr\Http\Message\UriInterface;
 
 final class Uri implements UriInterface
 {
+    private ?string $uri = null;
+
     private const MAX_PORT_VALUE = 65356;
 
     private const HTTP_PORT = 80;
@@ -16,7 +18,7 @@ final class Uri implements UriInterface
 
     private const STANDARD_PORTS = [
             'http' => Uri::HTTP_PORT,
-            'https' => Uri::HTTPS_PORT
+            'https' => Uri::HTTPS_PORT,
     ];
 
     public function __construct(
@@ -29,6 +31,11 @@ final class Uri implements UriInterface
             private string $query,
             private string $fragment
     ) {
+    }
+
+    public function __clone(): void
+    {
+        $this->uri = null;
     }
 
     public function getScheme(): string
@@ -54,16 +61,17 @@ final class Uri implements UriInterface
 
     public function getUserInfo(): string
     {
-        $userInfo = $this->user;
+        $userInfo = $this->encode($this->user);
         if ($this->pass !== '') {
-            $userInfo .= ':' . $this->pass;
+            $userInfo .= ':' . $this->encode($this->pass);
         }
 
         return $userInfo;
     }
+
     public function getHost(): string
     {
-        return $this->host;
+        return \strtolower($this->host);
     }
 
     public function getPort(): ?int
@@ -79,7 +87,13 @@ final class Uri implements UriInterface
 
     public function getPath(): string
     {
-        return $this->path;
+        $path = \implode('/', \array_map($this->encode(...), \explode('/', $this->path)));
+
+        if (\str_starts_with($path, '/')) {
+            $path = '/' . \ltrim($path, '/');
+        }
+
+        return $path;
     }
 
     public function getQuery(): string
@@ -94,6 +108,10 @@ final class Uri implements UriInterface
 
     public function withScheme(string $scheme): UriInterface
     {
+        if (\is_numeric($scheme)) {
+            throw new InvalidArgumentException();
+        }
+
         $uri = clone $this;
         $uri->scheme = $scheme;
 
@@ -139,6 +157,14 @@ final class Uri implements UriInterface
 
     public function withPath(string $path): UriInterface
     {
+        $path = \implode(
+                '/',
+                \array_map(
+                        $this->encode(...),
+                        \explode('/', $path)
+                )
+        );
+
         $uri = clone $this;
         $uri->path = $path;
 
@@ -163,39 +189,44 @@ final class Uri implements UriInterface
 
     public function __toString(): string
     {
-        $uri = '';
-        $scheme = $this->getScheme();
-        if ($scheme !== '') {
-            $uri .= $scheme . ':';
-        }
+        if ($this->uri === null) {
+            $uri = '';
+            $scheme = $this->getScheme();
+            if ($scheme !== '') {
+                $uri .= $scheme . ':';
+            }
 
-        $authority = $this->getAuthority();
-        $path = $this->getPath();
+            $authority = $this->getAuthority();
 
-        if ($authority !== '') {
-            $uri .= '//' . $authority;
+            if ($authority !== '') {
+                $uri .= '//' . $authority;
+            }
 
+            $path = $this->path;
             if (!\str_starts_with($path, '/')) {
-                $path = '/' . $path;
+                $path .= '/' . $path;
             }
-        } else {
-            if (\str_starts_with($path, '/')) {
-                $path = '/' . \ltrim($path, '/');
+
+            $uri .= $path;
+
+            $query = $this->getQuery();
+            if ($query !== '') {
+                $uri .= '?' . $query;
             }
+
+            $fragment = $this->getFragment();
+            if ($fragment !== '') {
+                $uri .= '#' . $fragment;
+            }
+
+            $this->uri = $uri;
         }
 
-        $uri .= $path;
+        return $this->uri;
+    }
 
-        $query = $this->getQuery();
-        if ($query !== '') {
-            $uri .= '?' . $query;
-        }
-
-        $fragment = $this->getFragment();
-        if ($fragment !== '') {
-            $uri .= '#' . $fragment;
-        }
-
-        return $uri;
+    private function encode(string $string): string
+    {
+        return \preg_match('/[^A-Za-z0-9-_\.~%]/', $string) ? \rawurlencode($string) : $string;
     }
 }

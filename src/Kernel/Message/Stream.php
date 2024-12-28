@@ -66,16 +66,28 @@ final class Stream implements StreamInterface
 
     public function seek(int $offset, int $whence = SEEK_SET): void
     {
+        if (!$this->isSeekable()) {
+            throw new RuntimeException('Cannot rewind non-seekable stream');
+        }
+
         \fseek($this->stream(), $offset, $whence);
     }
 
     public function rewind(): void
     {
+        if (!$this->isSeekable()) {
+            throw new RuntimeException('Cannot rewind non-seekable stream');
+        }
+
         \fseek($this->stream(), 0);
     }
 
     public function write(string $string): int
     {
+        if (!$this->isWritable()) {
+            throw new RuntimeException('Readonly stream');
+        }
+
         return \fwrite($this->stream(), $string);
     }
 
@@ -108,6 +120,7 @@ final class Stream implements StreamInterface
     {
         return $this->stream ?? throw new RuntimeException('Stream is in unusable state');
     }
+
     public function isWritable(): bool
     {
         $mode = $this->getMetadata('mode');

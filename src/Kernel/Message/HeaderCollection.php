@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Freeze\Framework\Kernel\Message;
 
+use InvalidArgumentException;
+
 final class HeaderCollection
 {
     /**
@@ -24,6 +26,16 @@ final class HeaderCollection
      */
     public function set(string $name, array $value): HeaderCollection
     {
+        if (empty($name) || empty($value)) {
+            throw new InvalidArgumentException('Header name or value is invalid.');
+        }
+
+        foreach ($value as $v) {
+            if (!\is_string($v) && !\is_int($value)) {
+                throw new InvalidArgumentException('Header name or value is invalid.');
+            }
+        }
+
         $headers = $this->headers;
         foreach ($headers as $index => $header) {
             if (\strcasecmp($header->name, $name) === 0) {
@@ -44,11 +56,24 @@ final class HeaderCollection
      */
     public function append(string $name, array $value): HeaderCollection
     {
+        if (empty($name) || empty($value)) {
+            throw new InvalidArgumentException('Header name or value is invalid.');
+        }
+
+        foreach ($value as $v) {
+            if (!\is_string($v) && !\is_int($value)) {
+                throw new InvalidArgumentException('Header name or value is invalid.');
+            }
+        }
+
         $headers = $this->headers;
 
         foreach ($headers as $index => $header) {
             if (\strcasecmp($header->name, $name) === 0) {
-                $headers[$index] = new Header($header->name, [...$header->value, ...$value]);
+                $headers[$index] = new Header($header->name, \array_merge(
+                        \array_values($header->value),
+                        \array_values($value)
+                ));
 
                 return new HeaderCollection($headers);
             }

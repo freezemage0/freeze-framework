@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Freeze\Framework\Kernel\Message;
 
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -25,6 +26,10 @@ final class Response extends Message implements ResponseInterface
 
     public function withStatus(int $code, string $reasonPhrase = ''): ResponseInterface
     {
+        if ($code < 100 || $code > 599) {
+            throw new InvalidArgumentException('Status code MUST be in range [100, 599]');
+        }
+
         if ($this->statusCode === $code && $this->reasonPhrase === $reasonPhrase) {
             return $this;
         }
