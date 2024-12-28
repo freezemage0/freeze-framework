@@ -31,7 +31,7 @@ final class HeaderCollection
         }
 
         foreach ($value as $v) {
-            if (!\is_string($v) && !\is_int($value)) {
+            if (!\is_string($v) && !\is_int($v)) {
                 throw new InvalidArgumentException('Header name or value is invalid.');
             }
         }
@@ -61,7 +61,7 @@ final class HeaderCollection
         }
 
         foreach ($value as $v) {
-            if (!\is_string($v) && !\is_int($value)) {
+            if (!\is_string($v) && !\is_int($v)) {
                 throw new InvalidArgumentException('Header name or value is invalid.');
             }
         }
