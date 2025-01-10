@@ -16,7 +16,8 @@ final class Stream implements StreamInterface
     /**
      * @param resource|null $stream
      */
-    public function __construct($stream) {
+    public function __construct($stream)
+    {
         if (!\is_resource($stream)) {
             throw new InvalidArgumentException('Stream must be of resource type');
         }
@@ -37,6 +38,10 @@ final class Stream implements StreamInterface
 
     public function detach()
     {
+        if ($this->stream === null) {
+            return null;
+        }
+
         $stream = $this->stream();
         $this->stream = null;
 
@@ -51,7 +56,7 @@ final class Stream implements StreamInterface
 
     public function tell(): int
     {
-        return \ftell($this->stream());
+        return \ftell($this->stream()) ?: 0;
     }
 
     public function eof(): bool
@@ -88,21 +93,25 @@ final class Stream implements StreamInterface
             throw new RuntimeException('Readonly stream');
         }
 
-        return \fwrite($this->stream(), $string);
+        return \fwrite($this->stream(), $string) ?: 0;
     }
 
     public function read(int $length): string
     {
+        if ($length <= 0) {
+            throw new RuntimeException('Cannot read negative bytes from stream');
+        }
+
         if (!$this->isReadable()) {
             throw new RuntimeException('Unreadable stream');
         }
 
-        return \fread($this->stream(), $length);
+        return \fread($this->stream(), $length) ?: '';
     }
 
     public function getContents(): string
     {
-        return \stream_get_contents($this->stream());
+        return \stream_get_contents($this->stream()) ?: '';
     }
 
     public function getMetadata(?string $key = null): mixed
@@ -116,6 +125,9 @@ final class Stream implements StreamInterface
         return $meta[$key] ?? null;
     }
 
+    /**
+     * @return resource
+     */
     private function stream(): mixed
     {
         return $this->stream ?? throw new RuntimeException('Stream is in unusable state');
@@ -123,6 +135,7 @@ final class Stream implements StreamInterface
 
     public function isWritable(): bool
     {
+        /** @var string $mode */
         $mode = $this->getMetadata('mode');
         if (\str_contains($mode, '+')) {
             return true;
@@ -133,6 +146,7 @@ final class Stream implements StreamInterface
 
     public function isReadable(): bool
     {
+        /** @var string $mode */
         $mode = $this->getMetadata('mode');
         if (\str_contains($mode, '+')) {
             return true;

@@ -8,11 +8,11 @@ final class Header
 {
     /**
      * @param string $name
-     * @param array<string, scalar> $value
+     * @param array<array-key, string> $value
      */
     public function __construct(
-            public readonly string $name,
-            public readonly array $value = []
+        public readonly string $name,
+        public readonly array $value = []
     ) {
     }
 

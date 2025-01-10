@@ -21,19 +21,13 @@ final class HeaderCollection
      * Returns the original instance if header wasn't found.
      *
      * @param string $name
-     * @param array<scalar> $value
+     * @param array<array-key, string> $value
      * @return HeaderCollection
      */
     public function set(string $name, array $value): HeaderCollection
     {
         if (empty($name) || empty($value)) {
             throw new InvalidArgumentException('Header name or value is invalid.');
-        }
-
-        foreach ($value as $v) {
-            if (!\is_string($v) && !\is_int($v)) {
-                throw new InvalidArgumentException('Header name or value is invalid.');
-            }
         }
 
         $headers = $this->headers;
@@ -51,7 +45,7 @@ final class HeaderCollection
 
     /**
      * @param string $name
-     * @param array<scalar> $value
+     * @param array<array-key, string> $value
      * @return HeaderCollection
      */
     public function append(string $name, array $value): HeaderCollection
@@ -60,19 +54,13 @@ final class HeaderCollection
             throw new InvalidArgumentException('Header name or value is invalid.');
         }
 
-        foreach ($value as $v) {
-            if (!\is_string($v) && !\is_int($v)) {
-                throw new InvalidArgumentException('Header name or value is invalid.');
-            }
-        }
-
         $headers = $this->headers;
 
         foreach ($headers as $index => $header) {
             if (\strcasecmp($header->name, $name) === 0) {
                 $headers[$index] = new Header($header->name, \array_merge(
-                        \array_values($header->value),
-                        \array_values($value)
+                    \array_values($header->value),
+                    \array_values($value)
                 ));
 
                 return new HeaderCollection($headers);
@@ -109,7 +97,7 @@ final class HeaderCollection
     }
 
     /**
-     * @return array<string, array<scalar>>
+     * @return array<string, array<string>>
      */
     public function toArray(): array
     {

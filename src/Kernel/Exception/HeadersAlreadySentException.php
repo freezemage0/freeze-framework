@@ -9,5 +9,4 @@ use RuntimeException;
 
 final class HeadersAlreadySentException extends RuntimeException implements ExceptionInterface
 {
-
 }

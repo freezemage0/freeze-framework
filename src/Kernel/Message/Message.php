@@ -12,8 +12,8 @@ abstract class Message implements MessageInterface
     protected HeaderCollection $headerCollection;
 
     public function __construct(
-            protected string $version,
-            protected StreamInterface $body
+        protected string $version,
+        protected StreamInterface $body
     ) {
         $this->headerCollection = new HeaderCollection();
     }

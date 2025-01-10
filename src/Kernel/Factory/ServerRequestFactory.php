@@ -14,8 +14,8 @@ use Psr\Http\Message\UriInterface;
 final class ServerRequestFactory implements ServerRequestFactoryInterface
 {
     public function __construct(
-            private readonly UriFactoryInterface $uriFactory,
-            private readonly StreamFactoryInterface $streamFactory
+        private readonly UriFactoryInterface $uriFactory,
+        private readonly StreamFactoryInterface $streamFactory
     ) {
     }
 
@@ -31,17 +31,23 @@ final class ServerRequestFactory implements ServerRequestFactoryInterface
             $uri = $this->uriFactory->createUri($uri);
         }
 
-        $protocol = \explode('/', $serverParams['SERVER_PROTOCOL'] ?? '');
+        if (!\is_string($serverParams['SERVER_PROTOCOL'])) {
+            $protocol = 'HTTP/1.1';
+        } else {
+            $protocol = $serverParams['SERVER_PROTOCOL'];
+        }
+
+        $protocol = \explode('/', $protocol);
         $version = $protocol[1] ?? '';
 
         return new ServerRequest(
-                server: $serverParams,
-                cookies: $_COOKIE,
-                query: $_GET,
-                uri: $uri,
-                method: $method,
-                version: $version,
-                body: $this->streamFactory->createStream()
+            server: $serverParams,
+            cookies: $_COOKIE,
+            query: $_GET,
+            uri: $uri,
+            method: $method,
+            version: $version,
+            body: $this->streamFactory->createStream()
         );
     }
 }

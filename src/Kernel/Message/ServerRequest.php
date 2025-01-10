@@ -22,28 +22,28 @@ final class ServerRequest extends Request implements ServerRequestInterface
     private array             $uploadedFiles = [];
 
     /**
-     * @param array<string, scalar> $server
-     * @param array<array-key, scalar> $cookies
-     * @param array<array-key, scalar> $query
+     * @param array<string, mixed> $server
+     * @param array<array-key, mixed> $cookies
+     * @param array<array-key, mixed> $query
      * @param UriInterface $uri
      * @param string $method
      * @param string $version
      * @param StreamInterface $body
      */
     public function __construct(
-            private readonly array $server,
-            private array $cookies,
-            private array $query,
-            UriInterface $uri,
-            string $method,
-            string $version,
-            StreamInterface $body
+        private readonly array $server,
+        private array $cookies,
+        private array $query,
+        UriInterface $uri,
+        string $method,
+        string $version,
+        StreamInterface $body
     ) {
         parent::__construct($uri, $method, $version, $body);
     }
 
     /**
-     * @return array<string, scalar>
+     * @return array<array-key, mixed>
      */
     public function getServerParams(): array
     {
@@ -51,7 +51,7 @@ final class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * @return array<array-key, scalar>
+     * @return array<array-key, mixed>
      */
     public function getCookieParams(): array
     {
@@ -59,7 +59,7 @@ final class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * @param array<array-key, scalar> $cookies
+     * @param array<array-key, mixed> $cookies
      * @return ServerRequestInterface
      */
     public function withCookieParams(array $cookies): ServerRequestInterface
@@ -71,7 +71,7 @@ final class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * @return array<array-key, scalar>
+     * @return array<array-key, mixed>
      */
     public function getQueryParams(): array
     {
@@ -79,7 +79,7 @@ final class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * @param array<array-key, scalar> $query
+     * @param array<array-key, mixed> $query
      * @return ServerRequestInterface
      */
     public function withQueryParams(array $query): ServerRequestInterface

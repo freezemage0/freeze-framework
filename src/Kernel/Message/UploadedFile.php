@@ -14,11 +14,11 @@ final class UploadedFile implements UploadedFileInterface
 
 
     public function __construct(
-            private readonly StreamInterface $stream,
-            private readonly ?string $clientFilename,
-            private readonly ?string $clientMediaType,
-            private readonly ?int $size,
-            private readonly int $error
+        private readonly StreamInterface $stream,
+        private readonly ?string $clientFilename,
+        private readonly ?string $clientMediaType,
+        private readonly ?int $size,
+        private readonly int $error
     ) {
     }
 
@@ -29,6 +29,10 @@ final class UploadedFile implements UploadedFileInterface
 
     public function moveTo(string $targetPath): void
     {
+        if ($this->clientFilename === null) {
+            throw new RuntimeException('Cannot move uploaded file without a name');
+        }
+
         // TODO: Rework.
         if ($this->moved) {
             throw new RuntimeException('Uploaded file was already moved.');

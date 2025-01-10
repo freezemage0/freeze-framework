@@ -12,36 +12,41 @@ use Freeze\Framework\Kernel\MiddlewareProcessor;
 use Freeze\Framework\Kernel\ResponseEmitter;
 use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use RuntimeException;
 
 final class Application
 {
     public function __construct(
-            private readonly ServerRequestFactoryInterface $serverRequestFactory,
-            private readonly MiddlewareProcessorInterface $processor = new MiddlewareProcessor(new ResponseFactory(new StreamFactory())),
-            private readonly ResponseEmitterInterface $responseEmitter = new ResponseEmitter()
+        private readonly ServerRequestFactoryInterface $serverRequestFactory,
+        private readonly MiddlewareProcessorInterface $processor = new MiddlewareProcessor(new ResponseFactory(new StreamFactory())),
+        private readonly ResponseEmitterInterface $responseEmitter = new ResponseEmitter()
     ) {
     }
 
-    final public function prependMiddleware(MiddlewareInterface $middleware): Application
+    public function prependMiddleware(MiddlewareInterface $middleware): Application
     {
         $this->processor->prepend($middleware);
         return $this;
     }
 
-    final public function appendMiddleware(MiddlewareInterface $middleware): Application
+    public function appendMiddleware(MiddlewareInterface $middleware): Application
     {
         $this->processor->append($middleware);
         return $this;
     }
 
-    final public function run(): void
+    public function run(): void
     {
+        if (!\is_string($_SERVER['REQUEST_METHOD']) || !\is_string($_SERVER['REQUEST_URI'])) {
+            throw new RuntimeException('Cannot run application in non-web environment');
+        }
+
         $response = $this->processor->handle(
-                $this->serverRequestFactory->createServerRequest(
-                        $_SERVER['REQUEST_METHOD'],
-                        $_SERVER['REQUEST_URI'],
-                        $_SERVER
-                )
+            $this->serverRequestFactory->createServerRequest(
+                $_SERVER['REQUEST_METHOD'],
+                $_SERVER['REQUEST_URI'],
+                $_SERVER
+            )
         );
 
         $this->responseEmitter->emit($response);

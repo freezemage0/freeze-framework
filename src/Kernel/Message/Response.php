@@ -11,10 +11,10 @@ use Psr\Http\Message\StreamInterface;
 final class Response extends Message implements ResponseInterface
 {
     public function __construct(
-            string $version,
-            StreamInterface $body,
-            protected int $statusCode = 200,
-            protected string $reasonPhrase = '',
+        string $version,
+        StreamInterface $body,
+        protected int $statusCode = 200,
+        protected string $reasonPhrase = '',
     ) {
         parent::__construct($version, $body);
     }

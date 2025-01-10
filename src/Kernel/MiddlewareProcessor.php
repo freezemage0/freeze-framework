@@ -17,7 +17,7 @@ final class MiddlewareProcessor implements MiddlewareProcessorInterface
     private array $stack = [];
 
     public function __construct(
-            private readonly ResponseFactoryInterface $responseFactory
+        private readonly ResponseFactoryInterface $responseFactory
     ) {
     }
 

@@ -22,14 +22,14 @@ final class Uri implements UriInterface
     ];
 
     public function __construct(
-            private string $scheme,
-            private string $host,
-            private string $user,
-            private string $pass,
-            private ?int $port,
-            private string $path,
-            private string $query,
-            private string $fragment
+        private string $scheme,
+        private string $host,
+        private string $user,
+        private string $pass,
+        private ?int $port,
+        private string $path,
+        private string $query,
+        private string $fragment
     ) {
     }
 
@@ -158,11 +158,11 @@ final class Uri implements UriInterface
     public function withPath(string $path): UriInterface
     {
         $path = \implode(
-                '/',
-                \array_map(
-                        $this->encode(...),
-                        \explode('/', $path)
-                )
+            '/',
+            \array_map(
+                $this->encode(...),
+                \explode('/', $path)
+            )
         );
 
         $uri = clone $this;

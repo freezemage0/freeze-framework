@@ -13,7 +13,12 @@ final class StreamFactory implements StreamFactoryInterface
 {
     public function createStream(string $content = ''): StreamInterface
     {
-        $stream = new Stream(\fopen('php://temp', 'r+'));
+        $stream = \fopen('php://temp', 'r+');
+        if (!$stream) {
+            throw new RuntimeException('Failed to create temporary stream');
+        }
+
+        $stream = new Stream($stream);
 
         if ($content !== '') {
             $stream->write($content);

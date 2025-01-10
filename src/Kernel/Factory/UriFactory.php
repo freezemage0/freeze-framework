@@ -38,14 +38,14 @@ final class UriFactory implements UriFactoryInterface
         }
 
         return new Uri(
-                $matches[2],
-                $host,
-                $user ?? '',
-                $pass ?? '',
-                $port ?? null,
-                $matches[5],
-                $matches[7] ?? '',
-                $matches[9] ?? ''
+            $matches[2],
+            $host,
+            $user ?? '',
+            $pass ?? '',
+            $port ?? null,
+            $matches[5],
+            $matches[7] ?? '',
+            $matches[9] ?? ''
         );
     }
 }

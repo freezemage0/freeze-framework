@@ -13,10 +13,10 @@ class Request extends Message implements RequestInterface
     protected ?string $target = null;
 
     public function __construct(
-            protected UriInterface $uri,
-            protected string $method,
-            string $version,
-            StreamInterface $body
+        protected UriInterface $uri,
+        protected string $method,
+        string $version,
+        StreamInterface $body
     ) {
         parent::__construct($version, $body);
     }
